@@ -1,0 +1,20 @@
+{% load static %}
+
+<head>
+    <link rel="stylesheet" href="https://cdn.acwing.com/static/jquery-ui-dist/jquery-ui.min.css">
+    <script src="https://cdn.acwing.com/static/jquery/js/jquery-3.3.1.min.js"></script>
+    <link rel="stylesheet" href="{% static 'css/shi.css' %}">
+</head>
+
+<body style="margin: 0">
+    <img src='{{ img }}' />
+    <form method="post" enctype="multipart/form-data" action="/g">
+        {% csrf_token  %}   <!-- 防止跨站攻击 -->
+        <!-- 后端通过name拿到数据 -->
+        <input type="file" name="img">
+        <button type="submit">提交</button>
+    </form>
+    <br/>
+    <p>{{ g }}</p>
+</body>
+
