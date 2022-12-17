@@ -13,6 +13,9 @@ from PIL import Image
 def index(request):
     return render(request, "multiends/web.html")
 
+def func(request):
+    return render(request, "multiends/func.html")
+
 def applyPCA(X, numComponents):
     newX = np.reshape(X, (-1, X.shape[2]))
     pca = PCA(n_components=numComponents, whiten=True)
@@ -31,21 +34,14 @@ def padWithZeros(X, margin=2):
 
 
 def g(request):
-    # pic=''
-    # # 获取上传的图片对象
-    # if request.method == 'POST':
-    #     pic=request.FILES.get('img')
-    # new_name = getNewName('img')
-    # # pic.chunks() 返回一个生成器，存储该文件的内容
-    # load = '%s/image/%s' % ('/home/lxy/se12/shi/media', new_name)
-    # new_path = '%s/image/%s' % ('/home/lxy/se12/shi/static', new_name)
-    # with open(load, 'wb') as f:
-    #     # 这里返回一个生成器需要通过遍历才可以得到内容
-    #     for content in pic.chunks():
-    #         f.write(content)
-    # shutil.copy(load, new_path)
-    # # 在数据库中添加该上传记录
-    # image.objects.create(img='/image/%s' % new_name)
+    # 获取上传的 .mat 文件
+    if request.method == "POST":
+        myFile = request.FILES.get("file")
+    new_name = getNewName('mat')
+    load = '%s/%s' % ('/home/lxy/se12/shi/dataset', new_name)
+    with open(load, 'wb') as f:
+        for content in myFile.chunks():
+            f.write(content)
 
     # load model
     device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
@@ -54,7 +50,7 @@ def g(request):
     model.load_state_dict(state_dict)
     model=model.to(device)
     # load the original image
-    X = sio.loadmat('/home/lxy/se12/shi/dataset/SalinasA_corrected.mat')['salinasA_corrected']
+    X = sio.loadmat(load)['salinasA_corrected']
     y = sio.loadmat('/home/lxy/se12/shi/dataset/SalinasA_gt.mat')['salinasA_gt']
 
     height = y.shape[0]
@@ -90,6 +86,6 @@ def g(request):
     content={
             'img': load_path
             }
-    return render(request, 'multiends/web.html', content)
+    return render(request, 'multiends/func.html', content)
 
 

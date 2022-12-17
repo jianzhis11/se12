@@ -10,7 +10,10 @@ def getNewName(file_type):
     for i in ranlist:
         new_name += str(i)
     # 加后缀名
-    new_name += '.jpg'
+    if file_type == 'img':
+        new_name += '.jpg'
+    else:
+        new_name += '.mat'
     # 返回字符串
     return new_name
 

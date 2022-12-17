@@ -7,14 +7,17 @@
 </head>
 
 <body style="margin: 0">
-    <img src='{{ img }}' />
-    <form method="post" enctype="multipart/form-data" action="/g">
-        {% csrf_token  %}   <!-- 防止跨站攻击 -->
-        <!-- 后端通过name拿到数据 -->
-        <input type="file" name="img">
-        <button type="submit">提交</button>
-    </form>
-    <br/>
-    <p>{{ g }}</p>
+    <h2>
+        欢迎来到OUC高光谱图像分类！
+    </h2>
+    <h3>
+        简介：
+    </h3>
+    <h4>
+        光谱分辨率在0.01λ数量级范围内的光谱图像称为高光谱图像。高光谱图像分类技术通过搭载在不同空间平台上的高光谱传感器，在电磁波谱的紫外、可见光、近红外和中红外区域，以数十至数百个连续且细分的光谱波段对目标区域同时成像。在获得地表图像信息的同时，也获得其光谱信息，真正做到了光谱与图像的结合。
+    </h4>
+    <a href="func">
+        点击此处开始进行高光谱图像分类
+    </a>
 </body>
 
