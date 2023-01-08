@@ -1,0 +1,39 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Login</title>
+        <link rel="stylesheet" href="{% static 'css/login.css' %}">
+    </head>
+    {% if messages %}
+    <script>
+        {% for msg in messages %}
+            alert('{{ msg.message }}');
+        {% endfor %}
+    </script>
+    {% endif %}
+    <body>
+        <div class="container">
+            <h1>登录</h1>
+            <form action="/login" method="get">
+                <div class="form-control">
+                    <input type="text" name="username"  required>
+                    <label>
+                        账号
+                    </label>
+                </div>
+                <div class="form-control">
+                    <input type="password" name="password" required>
+                    <label>密码</label>
+                </div>
+                <button class="btn">登录</button>
+                <p class="text">没有帐户？<a href="toregister">注册</a> </p>
+            </form>
+        </div>
+
+        <script type="text/javascript" src="{% static 'js/dist/shi.js' %}"></script> 
+    </body>
+</html>

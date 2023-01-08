@@ -1,0 +1,36 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>注册</title>
+        <link rel="stylesheet" href="{% static 'css/login.css' %}">
+    </head>
+    <body>
+        <div class="container">
+            <h1>注册</h1>
+            <form action="/register" method="get">
+                <div class="form-control">
+                    <input type="text" name="username" required>
+                    <label>
+                        账号
+                    </label>
+                </div>
+                <div class="form-control">
+                    <input type="password" name="password" required>
+                    <label>密码</label>
+                </div>
+                <div class="form-control">
+                    <input type="password" name="password_confirm" required>
+                    <label>请再次输入密码<label>
+                </div>
+                <button class="btn">注册并登录</button>
+                <p class="text">已有帐户？<a href="index">登录</a> </p>
+            </form>
+        </div>
+
+        <script type="text/javascript" src="{% static 'js/dist/shi.js' %}"></script> 
+    </body>
+</html>

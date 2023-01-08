@@ -1,4 +1,10 @@
 from django.shortcuts import render
+from django.http import JsonResponse
+from django.contrib import messages
+from django.contrib.auth.models import User
+from shi.models.player.player import Player
+from django.shortcuts import redirect
+from django.contrib.auth import authenticate, login, logout
 from shi.models.models import image, ChannelAttention, SpatialAttention, HybridSN
 from shi.views.utils.utils import getNewName
 import shutil
@@ -11,7 +17,47 @@ import numpy as np
 from PIL import Image
 
 def index(request):
+    return render(request, "multiends/login.html")
+
+def toregister(request):
+    return render(request, "multiends/register.html")
+
+def register(request):
+    data = request.GET
+    username = data.get("username", "").strip()
+    password = data.get("password", "").strip()
+    password_confirm = data.get("password_confirm", "").strip()
+    if password != password_confirm:
+        messages.success(request, "两个密码不一致")
+        return redirect('toregister')
+    if User.objects.filter(username=username).exists():
+        messages.success(request, "用户名已存在")
+        return redirect('toregister')
+    user = User(username=username)
+    user.set_password(password)
+    user.save()
+    Player.objects.create(user=user, photo="https://s3.bmp.ovh/imgs/2023/01/07/b1ff4a481caea4d9.jpg")
+    login(request, user)
     return render(request, "multiends/web.html")
+
+def signin(request):
+    data = request.GET
+    username = data.get('username')
+    password = data.get('password')
+    user = authenticate(username=username, password=password)
+    if not user:
+        return redirect('index')
+    login(request, user)
+    return render(request, "multiends/web.html")
+
+def signout(request):
+    user = request.user
+    if not user.is_authenticated:
+        messages.success(request, "密码错误")
+        return redirect('index')
+    logout(request)
+    return redirect('index')
+
 
 def func(request):
     return render(request, "multiends/func.html")
